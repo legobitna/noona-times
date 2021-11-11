@@ -1,27 +1,81 @@
-const API_KEY = "XGtguBOOaRPYsGvo9lKKmMgUlmHxcMLX";
-const news_api = "b1fe516cb2ff4032b010ec5773f3a973";
-
 //https://app.newscatcherapi.com/dashboard/
-
+// this api will be expired in 30 days
+const API_KEY = "HAb-VwD8jA1lFdszL-lwITEkRTIlYrTwPo-eSBa-IQk";
 let articles = [];
-const getapi = async () => {
-  let url = `https://api.newscatcherapi.com/v2/latest_headlines?countries=US&topic=business&page_size=10`;
-  let h = new Headers();
-  h.append("x-api-key", `HAb-VwD8jA1lFdszL-lwITEkRTIlYrTwPo-eSBa-IQk`);
-  //   let url = `https://newsapi.org/v2/everything?q=tesla&from=2021-10-11&sortBy=publishedAt&apiKey=${news_api}`;
-  let response = await fetch(url, { method: "GET", headers: h });
-  let data = await response.json();
-  articles = data.articles;
-  console.log(data);
-  render();
+let page = 1;
+let totalPage = 1;
+let menus = document.querySelectorAll("#menu-list button");
+menus.forEach((menu) =>
+  menu.addEventListener("click", (e) => getNewsByTopic(e))
+);
+
+const getNews = async (url) => {
+  try {
+    let header = new Headers();
+    header.append("x-api-key", API_KEY);
+    let response = await fetch(url, { headers: header });
+    let data = await response.json();
+    articles = data.articles;
+    totalPage = data.total_pages;
+    console.log(articles);
+    render();
+    if (response.status == 200) {
+      if (data.total_hits == 0) {
+        throw new Error(data.status);
+      }
+      articles = data.articles;
+      totalPage = data.total_pages;
+      console.log(url);
+      console.log(articles);
+      render();
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (e) {
+    errorRender(e.message);
+  }
+};
+const getLatestNews = () => {
+  let url = `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&page_size=10`;
+  getNews(url);
 };
 
+const getNewsByTopic = (event) => {
+  let topic = event.target.textContent.toLowerCase();
+  let url = `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&page_size=10&topic=${topic}`;
+  getNews(url);
+};
 const render = () => {
   let resultHTML = articles
     .map((news) => {
-      return `<h1>${news.title}</h1>`;
+      return `<div class="news row">
+        <div class="col-lg-4">
+            <img class="news-img"
+                src="${news.media}" />
+        </div>
+        <div class="col-lg-8">
+            <a class="title" target="_blank" href="${news.link}">${news.title}</a>
+            <p>${news.summary}</p>
+            <div>${news.rights} * ${news.published_date}</div>
+        </div>
+    </div>`;
     })
     .join("");
-  document.getElementById("show").innerHTML = resultHTML;
+
+  document.getElementById("news-board").innerHTML = resultHTML;
 };
-getapi();
+
+const errorRender = (message) => {
+  document.getElementById(
+    "news-board"
+  ).innerHTML = `<h3 class="text-center alert alert-danger mt-1">${message}</h3>`;
+};
+getLatestNews();
+
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}

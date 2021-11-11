@@ -1,0 +1,104 @@
+
+.head-line-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  
+}
+.icon-button{
+    padding: 8px 9px 9px;
+    margin-top:5px;
+}
+.icon-button:hover{
+    background-color: beige;
+}
+.hide{
+    display:none;
+}
+.head-line{
+    width:430px;
+    margin:6px auto;
+}
+.menus{
+    display: flex;
+    justify-content: center;
+    padding:5px 0 4px;
+    border-top:1px solid rgb(235, 235, 235);
+    border-bottom: 4px double black;
+    flex-wrap: wrap;
+}
+.menus button {
+    margin:5px;
+    border:none;
+    background:none;
+}
+.menus button:hover{
+    background-color: beige;
+    border-radius: 3px;
+}
+.news{
+    display: flex;
+    padding: 1em;
+    border-bottom: 2px solid black;
+}
+.news-img{
+    max-width: 100%;
+    margin-right:1em;
+}
+.title{
+    font-size: 20pt;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+.title:hover{
+    text-decoration: underline;
+    color: blue;
+}
+.side-menu{
+    height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: burlywood;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+.side-menu-list button{
+    margin:5px;
+    border:none;
+    background:none;
+    width:120px;
+}
+
+.side-menu .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    border:none;
+    background:none;
+  }
+
+  .side-menu-list{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .side-menu-list button:hover{
+    background-color: beige;
+    border-radius: 3px;
+}
+@media screen and (max-width: 63rem) {
+.hide{
+    display:inline
+}
+.menus{
+    display:none;
+}
+}
