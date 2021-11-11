@@ -32,13 +32,18 @@
             <button>Gaming</button>
             <button>Energy</button>
         </div>
-       
+
     </div>
     <section class="container">
         <div class="head-line-section">
             <div>
                 <i class="fas fa-bars hide icon-button" onclick="openNav()"></i>
-                <i class="fas fa-search icon-button"></i>
+                <i class="fas fa-search icon-button" onclick="openSearchBox()"></i>
+                <span id="input-area">
+                    <input type="text" id="search-input" placeholder="search" />
+                    <button class="search-button" onclick="searchNews()">Go</button>
+                </span>
+
             </div>
             <svg viewBox="0 0 184 25" fill="#000" class="head-line">
                 <path
@@ -79,6 +84,11 @@
                 </div>
             </div>
         </div>
+
+        <nav aria-label="Page navigation example" class="pagenation-nav">
+            <ul class="pagination">
+            </ul>
+        </nav>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
