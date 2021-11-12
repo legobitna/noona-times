@@ -14,8 +14,13 @@
   display: none;
 }
 .head-line {
-  width: 430px;
-  margin: 6px auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.head-line svg {
+    max-width: 430px;
+    margin:0px 20px
 }
 .menus {
   display: flex;
@@ -41,13 +46,16 @@
 }
 .news-img {
   max-width: 100%;
+  max-height: 250px;
   margin-right: 1em;
+  text-align: center;
 }
 .title {
   font-size: 20pt;
   text-decoration: none;
   color: black;
   font-weight: bold;
+  margin-top: 2em;
 }
 .title:hover {
   text-decoration: underline;
@@ -122,4 +130,15 @@
 }
 .pagination {
   margin-top: 1em;
+}
+.page-item.active .page-link{
+    background-color: burlywood;
+    color: white;
+    border-color: burlywood;
+}
+.page-link{
+    color:burlywood
+}
+.col-lg-8{
+    margin-top:1em
 }

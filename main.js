@@ -29,8 +29,6 @@ const getNews = async () => {
       }
       articles = data.articles;
       totalPage = data.total_pages;
-      console.log(url);
-      console.log(articles);
       render();
       renderPagenation();
     } else {
@@ -81,14 +79,23 @@ const render = () => {
       return `<div class="news row">
         <div class="col-lg-4">
             <img class="news-img"
-                src="${news.media}" />
+                src="${
+                  news.media ||
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqEWgS0uxxEYJ0PsOb2OgwyWvC0Gjp8NUdPw&usqp=CAU"
+                }" />
         </div>
         <div class="col-lg-8">
             <a class="title" target="_blank" href="${news.link}">${
         news.title
       }</a>
-            <p>${news.summary}</p>
-            <div>${news.rights || "no source"} * ${news.published_date}</div>
+            <p>${
+              news.summary == null
+                ? "내용없음"
+                : news.summary.length > 200
+                ? news.summary.substring(0, 200) + "..."
+                : news.summary
+            }</p>
+            <div>${news.rights || "no source"}  ${news.published_date}</div>
         </div>
     </div>`;
     })
@@ -98,12 +105,12 @@ const render = () => {
 };
 const renderPagenation = () => {
   let pagenationHTML = ``;
-  let pageGroup = Math.ceil(page / 10);
-  let last = pageGroup * 10;
+  let pageGroup = Math.ceil(page / 5);
+  let last = pageGroup * 5;
   if (last > totalPage) {
     last = totalPage;
   }
-  let first = last - 9 <= 0 ? 1 : last - 9;
+  let first = last - 4 <= 0 ? 1 : last - 4;
   if (first >= 11) {
     pagenationHTML = `<li class="page-item" onclick="pageClick(1)">
                         <a class="page-link" href='#js-bottom' id='allprev'>&lt;&lt;</a>
