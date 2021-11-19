@@ -16,18 +16,16 @@ const getNews = async () => {
   try {
     let header = new Headers();
     header.append("x-api-key", API_KEY);
-    url.searchParams.set("page", page);
+    url.searchParams.set("page", page); // 8.page를 달아준다
     let response = await fetch(url, { headers: header });
     let data = await response.json();
-    articles = data.articles;
-    totalPage = data.total_pages;
-    console.log("dd", data, "url", url);
-    render();
     if (response.status == 200) {
       if (data.total_hits == 0) {
         throw new Error(data.status);
       }
+
       articles = data.articles;
+      console.log("articles", articles);
       totalPage = data.total_pages;
       render();
       renderPagenation();
@@ -39,7 +37,7 @@ const getNews = async () => {
   }
 };
 const getLatestNews = () => {
-  page = 1;
+  page = 1; // 9. 새로운거 search마다 1로 리셋
   url = new URL(
     `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&page_size=10`
   );
@@ -89,13 +87,15 @@ const render = () => {
         news.title
       }</a>
             <p>${
-              news.summary == null
+              news.summary == null || news.summary == ""
                 ? "내용없음"
                 : news.summary.length > 200
                 ? news.summary.substring(0, 200) + "..."
                 : news.summary
             }</p>
-            <div>${news.rights || "no source"}  ${news.published_date}</div>
+            <div>${news.rights || "no source"}  ${moment(
+        news.published_date
+      ).fromNow()}</div>
         </div>
     </div>`;
     })
@@ -104,14 +104,21 @@ const render = () => {
   document.getElementById("news-board").innerHTML = resultHTML;
 };
 const renderPagenation = () => {
+  // 1.1~5까지를 보여준다
+  // 2.6~10을 보여준다 => last, first 가필요
+  // 3.만약에 first가 6 이상이면 prev 버튼을 단다
+  // 4.만약에 last가 마지막이 아니라면 next버튼을 단다
+  // 5.마지막이 5개이하이면 last=totalpage이다
+  // 6.페이지가 5개 이하라면 first = 1이다
   let pagenationHTML = ``;
   let pageGroup = Math.ceil(page / 5);
   let last = pageGroup * 5;
   if (last > totalPage) {
+    // 마지막 그룹이 5개 이하이면
     last = totalPage;
   }
-  let first = last - 4 <= 0 ? 1 : last - 4;
-  if (first >= 11) {
+  let first = last - 4 <= 0 ? 1 : last - 4; // 첫그룹이 5이하이면
+  if (first >= 6) {
     pagenationHTML = `<li class="page-item" onclick="pageClick(1)">
                         <a class="page-link" href='#js-bottom' id='allprev'>&lt;&lt;</a>
                       </li>
@@ -138,6 +145,7 @@ const renderPagenation = () => {
 };
 
 const pageClick = (pageNum) => {
+  //7.클릭이벤트 세팅
   page = pageNum;
   window.scrollTo({ top: 0, behavior: "smooth" });
   getNews();
