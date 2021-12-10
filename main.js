@@ -1,6 +1,6 @@
 //https://app.newscatcherapi.com/dashboard/
-// this api will be expired in 30 days
-const API_KEY = "HAb-VwD8jA1lFdszL-lwITEkRTIlYrTwPo-eSBa-IQk";
+// this api will be expired in 30 days 0109
+const API_KEY = "HJlSbT4q0e1faiWW-smEmD8BozoxFYqDdxIgldSKJyc";
 let articles = [];
 let page = 1;
 let totalPage = 1;
@@ -33,6 +33,7 @@ const getNews = async () => {
       throw new Error(data.message);
     }
   } catch (e) {
+    console.log("에러객체", e.name);
     errorRender(e.message);
   }
 };
@@ -120,24 +121,24 @@ const renderPagenation = () => {
   let first = last - 4 <= 0 ? 1 : last - 4; // 첫그룹이 5이하이면
   if (first >= 6) {
     pagenationHTML = `<li class="page-item" onclick="pageClick(1)">
-                        <a class="page-link" href='#js-bottom' id='allprev'>&lt;&lt;</a>
+                        <a class="page-link" href='#js-bottom'>&lt;&lt;</a>
                       </li>
                       <li class="page-item" onclick="pageClick(${page - 1})">
-                        <a class="page-link" href='#js-bottom' id='allprev'>&lt;</a>
+                        <a class="page-link" href='#js-bottom'>&lt;</a>
                       </li>`;
   }
   for (let i = first; i <= last; i++) {
     pagenationHTML += `<li class="page-item ${i == page ? "active" : ""}" >
-                        <a class="page-link" href='#js-bottom' id='page-${i}' onclick="pageClick(${i})" >${i}</a>
+                        <a class="page-link" href='#js-bottom' onclick="pageClick(${i})" >${i}</a>
                        </li>`;
   }
 
   if (last < totalPage) {
     pagenationHTML += `<li class="page-item" onclick="pageClick(${page + 1})">
-                        <a  class="page-link" href='#js-program-detail-bottom'  id='next'>&gt;</a>
+                        <a  class="page-link" href='#js-program-detail-bottom'>&gt;</a>
                        </li>
                        <li class="page-item" onclick="pageClick(${totalPage})">
-                        <a class="page-link" id='allnext'>&gt;&gt;</a>
+                        <a class="page-link" href='#js-bottom'>&gt;&gt;</a>
                        </li>`;
   }
 
@@ -157,10 +158,10 @@ const errorRender = (message) => {
 };
 getLatestNews();
 
-function openNav() {
+const openNav = () => {
   document.getElementById("mySidenav").style.width = "250px";
-}
+};
 
-function closeNav() {
+const closeNav = () => {
   document.getElementById("mySidenav").style.width = "0";
-}
+};
