@@ -1,6 +1,6 @@
 //https://app.newscatcherapi.com/dashboard/
 // this api will be expired in 30 days 0109
-const API_KEY = "NMCcapyGds7XHO9w6KO0xEJJKwlteDJ2TzSFctI6APc";
+const API_KEY = "5DhD5eb27MlF7TkkbdMBotDeINa6ab-kCjTtA2fhxxM";
 let articles = [];
 let page = 1;
 let totalPage = 1;
