@@ -1,6 +1,6 @@
 //https://app.newscatcherapi.com/dashboard/
-// this api will be expired in 30 days 0323
-const API_KEY = "i9xR8bSOcP2cb7Q89SDzp_jrPyrmjXHTMiQusRDZXM0";
+// this api will be expired in 30 days 0524
+const API_KEY = "xaGE4sUGBPPYlkcZtHgEhu3f1extBAmnCEeP-b95ub4";
 let articles = [];
 let page = 1;
 let totalPage = 1;
@@ -21,20 +21,30 @@ const getNews = async () => {
     let data = await response.json();
     if (response.status == 200) {
       if (data.total_hits == 0) {
+        console.log("A", data);
+        page = 0;
+        totalPage = 0;
+        renderPagenation();
         throw new Error(data.status);
       }
-
+      console.log("B", data);
       articles = data.articles;
       console.log("articles", articles);
       totalPage = data.total_pages;
       render();
       renderPagenation();
     } else {
+      page = 0;
+      totalPage = 0;
+      renderPagenation();
       throw new Error(data.message);
     }
   } catch (e) {
     console.log("에러객체", e.name);
     errorRender(e.message);
+    page = 0;
+    totalPage = 0;
+    renderPagenation();
   }
 };
 const getLatestNews = () => {
